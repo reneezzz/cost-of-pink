@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf3ec">
+  <meta name="description" content="Cost of Pink：两人同屏，体验日常生活中不同的经济条件。">
+  <title>Cost of Pink · 同屏双人桌游</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="Cost of Pink 首页">Cost of Pink<span>粉红税桌游</span></a>
+    <nav aria-label="游戏菜单">
+      <span class="mode-label"><i></i> 同屏双人</span>
+      <button class="text-button" id="rules-button">怎么玩</button>
+      <button class="text-button" id="restart-button">重新开始 <span aria-hidden="true">↗</span></button>
+    </nav>
+  </header>
+  <main>
+    <section class="board-panel" aria-labelledby="board-heading">
+      <div class="board-heading"><div><span class="eyebrow">THE COST OF EVERYDAY LIFE</span><h1 id="board-heading">同一条路，不同的代价。</h1></div><button id="board-zoom" class="icon-button" aria-label="放大查看原始棋盘">↗</button></div>
+      <div class="board-wrap">
+        <svg id="board" viewBox="90 280 1100 1460" role="img" aria-label="从起点经 39 个情境格到终点的棋盘">
+          <image href="./assets/board.png" width="1287" height="1819" />
+          <g id="board-markers"></g>
+        </svg>
+      </div>
+      <div class="board-foot"><span>↳ 沿编号前进 · 恰好到达终点</span><span id="position-summary">每一步，都有不同的经历。</span></div>
+    </section>
+    <aside class="game-panel" aria-label="游戏操作">
+      <div class="players" id="players"></div>
+      <section class="turn-strip" aria-label="当前回合"><div><span class="eyebrow" id="turn-number">准备开始</span><h2 id="turn-name">邀请一位朋友，一起玩。</h2></div><div id="dice" class="dice" aria-label="尚未掷骰子">✦</div></section>
+      <section id="event-panel" class="event-panel" aria-live="polite" aria-atomic="true"></section>
+      <section class="history-panel" aria-labelledby="history-title"><div class="history-heading"><h2 id="history-title">这一路发生了什么</h2><span>回合记录</span></div><ol id="history"></ol></section>
+      <p class="save-note" id="save-note">进度保存在这台设备的浏览器中</p>
+    </aside>
+  </main>
+  <dialog id="setup-dialog" class="setup-dialog" aria-labelledby="setup-title">
+    <div class="setup-art" aria-hidden="true"><span>✦</span><span>Cost<br>of Pink</span><span>✿</span></div>
+    <form id="setup-form">
+      <span class="eyebrow">一台电脑 · 两名玩家</span><h2 id="setup-title">一起走过这段旅程。</h2>
+      <p>掷骰子、遇见日常情境，体验不同角色的收入与支出。</p>
+      <div class="name-inputs"><label>玩家 A<input name="playerA" maxlength="18" value="玩家 A" autocomplete="off" required></label><label>玩家 B<input name="playerB" maxlength="18" value="玩家 B" autocomplete="off" required></label></div>
+      <div class="setup-facts"><span>每人初始 <b>$100</b></span><span>随机分配 <b>Blue / Pink</b></span></div>
+      <p class="small-text">Blue 先手。角色与玩家本人的性别无关；途中可能交换角色，位置和余额仍属于原玩家。</p>
+      <button type="submit" class="primary">分配角色，开始游戏 <span>→</span></button>
+      <button type="button" class="text-button setup-cancel" id="setup-cancel" hidden>返回当前对局</button>
+    </form>
+  </dialog>
+  <dialog id="rules-dialog" class="info-dialog" aria-labelledby="rules-title">
+    <button class="close-dialog" data-close="rules-dialog" aria-label="关闭规则">×</button>
+    <span class="eyebrow">HOW TO PLAY</span><h2 id="rules-title">两个人，一起玩。</h2>
+    <ol class="rules-list">
+      <li><b>随机分配角色</b><p>每人 $100，初始 Blue 先手，之后 A、B 交替行动。</p></li>
+      <li><b>掷骰子，结算落点</b><p>只触发停留的格子。按类别抽卡，阅读后确认当前角色对应的收入或费用；办公室也需要抽卡。当前交通卡只结算费用。</p></li>
+      <li><b>交换角色，保留经历</b><p>落在 Switch 时交换 Blue／Pink；自己的位置和余额不变，行动顺序不变。</p></li>
+      <li><b>抵达终点，或避免破产</b><p>恰好到达终点即获胜，多出的步数往回退。强制付款后余额为 0，或无法付清费用，立即失败。</p></li>
+    </ol>
+    <p class="rules-note">各类卡牌抽完后重新洗牌。本局卡牌按标示结算，没有可选购买。卡牌金额是游戏设定；不同情境呈现定价、收入、需求或安全条件的差异。</p>
+    <button class="primary" data-close="rules-dialog">明白了</button>
+  </dialog>
+  <dialog id="art-dialog" class="art-dialog" aria-label="原始设计预览"><button class="close-dialog" data-close="art-dialog" aria-label="关闭预览">×</button><img id="art-preview" src="./assets/board.png" alt="原始棋盘设计"></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
