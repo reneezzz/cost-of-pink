@@ -1,5 +1,6 @@
 import { BOARD, CATEGORIES, CARD_BY_ID, FINISH } from './game-data.js';
 import { createGame, rollTurn, revealCard, settleCard, exchangeRoles, nextTurn, isValidSave } from './game-engine.js';
+import { createDie } from './dice.js';
 
 const $ = id => document.getElementById(id);
 const KEY = 'cost-of-pink-v1';
@@ -9,6 +10,7 @@ const roleColor = p => p.role === 'blue' ? '#4053a5' : '#e653a7';
 const money = n => n > 0 ? `+$${n}` : n < 0 ? `−$${-n}` : '$0';
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const die = createDie($('dice'));
 let state = null, busy = false, storageAvailable = true;
 try {
   const saved = JSON.parse(localStorage.getItem(KEY));
@@ -73,8 +75,7 @@ function render() {
   renderPlayers(); updateTokens();
   $('turn-number').textContent = state ? `TURN ${String(state.turn).padStart(2,'0')} · ${state.phase === 'over' ? '本局结束' : '当前回合'}` : '准备开始';
   $('turn-name').textContent = state ? (state.phase === 'over' ? '停下来，聊聊这段经历。' : `${state.players[state.active].name} 的回合`) : '邀请一位朋友，一起玩。';
-  $('dice').textContent = state?.dice ? ['','⚀','⚁','⚂','⚃','⚄','⚅'][state.dice] : '✦';
-  $('dice').setAttribute('aria-label',state?.dice ? `骰子：${state.dice} 点` : '尚未掷骰子');
+  die.show(state?.dice);
   $('event-panel').innerHTML = renderEvent();
   $('history').innerHTML = state ? [...state.history].reverse().map(h => `<li><span class="history-turn">${String(h.turn).padStart(2,'0')}</span><span>${escape(h.text)}</span></li>`).join('') : '<li>开始游戏后，这里会记录双方的每一步。</li>';
   $('position-summary').textContent = state ? state.players.map(p => `${p.id} · ${p.position === 0 ? '起点' : p.position === FINISH ? '终点' : `${p.position} / 40`}`).join('　') : '每一步，都有不同的经历。';
@@ -110,9 +111,9 @@ $('event-panel').addEventListener('click', async event => {
   busy = true; button.disabled = true; $('restart-button').disabled = true;
   try {
     if (action === 'roll') {
-      $('dice').classList.add('rolling');
-      await wait(reducedMotion ? 0 : 450);
-      state = rollTurn(state); $('dice').classList.remove('rolling');
+      const rolled = rollTurn(state);
+      await die.roll(rolled.dice);
+      state = rolled;
       save(); render(); await wait(reducedMotion ? 0 : 650);
     } else if (action === 'draw') state = revealCard(state);
     else if (action === 'settle') state = settleCard(state);

@@ -18,8 +18,8 @@
     </nav>
   </header>
   <main>
-    <section class="board-panel" aria-labelledby="board-heading">
-      <div class="board-heading"><div><span class="eyebrow">THE COST OF EVERYDAY LIFE</span><h1 id="board-heading">同一条路，不同的代价。</h1></div><button id="board-zoom" class="icon-button" aria-label="放大查看原始棋盘">↗</button></div>
+    <section class="board-panel" aria-label="游戏棋盘">
+      <button id="board-zoom" class="icon-button board-zoom" aria-label="放大查看原始棋盘">↗</button>
       <div class="board-wrap">
         <svg id="board" viewBox="90 280 1100 1460" role="img" aria-label="从起点经 39 个情境格到终点的棋盘">
           <image href="./assets/board.png" width="1287" height="1819" />
@@ -30,7 +30,7 @@
     </section>
     <aside class="game-panel" aria-label="游戏操作">
       <div class="players" id="players"></div>
-      <section class="turn-strip" aria-label="当前回合"><div><span class="eyebrow" id="turn-number">准备开始</span><h2 id="turn-name">邀请一位朋友，一起玩。</h2></div><div id="dice" class="dice" aria-label="尚未掷骰子">✦</div></section>
+      <section class="turn-strip" aria-label="当前回合"><div><span class="eyebrow" id="turn-number">准备开始</span><h2 id="turn-name">邀请一位朋友，一起玩。</h2></div><div id="dice" class="dice" role="img" aria-label="尚未掷骰子"></div></section>
       <section id="event-panel" class="event-panel" aria-live="polite" aria-atomic="true"></section>
       <section class="history-panel" aria-labelledby="history-title"><div class="history-heading"><h2 id="history-title">这一路发生了什么</h2><span>回合记录</span></div><ol id="history"></ol></section>
       <p class="save-note" id="save-note">进度保存在这台设备的浏览器中</p>
