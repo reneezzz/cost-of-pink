@@ -32,15 +32,15 @@ function updateTokens() {
   const markers = $('board-markers');
   if (!state) { markers.innerHTML = ''; return; }
   if (!markers.children.length) {
-    markers.innerHTML = state.players.map(p => `<g id="token-${p.id}" class="token"><circle class="token-ring" r="34"/><circle class="token-body" r="27"/><text>${p.id}</text></g>`).join('');
+    markers.innerHTML = state.players.map(p => `<g id="token-${p.id}" class="token"><ellipse class="token-ring" cx="0" cy="24" rx="38" ry="13"/><image class="token-piece" x="-36" y="-70" width="72" height="100" preserveAspectRatio="xMidYMid meet"/><g class="token-badge" transform="translate(24 23)"><circle r="12"/><text>${p.id}</text></g></g>`).join('');
   }
   const same = state.players[0].position === state.players[1].position;
   state.players.forEach((p, i) => {
     const cell = BOARD[p.position], token = $(`token-${p.id}`);
-    const offset = same ? (i ? 31 : -31) : 0;
+    const offset = same ? (i ? 36 : -36) : 0;
     token.setAttribute('transform', `translate(${cell.x + offset} ${cell.y + 24})`);
     token.setAttribute('aria-label', `${p.id} ${p.name}，${roleName(p)}，${p.position === 0 ? '起点' : `第 ${p.position} 格`}`);
-    token.querySelector('.token-body').setAttribute('fill', roleColor(p));
+    token.querySelector('.token-piece').setAttribute('href', `./assets/tokens/${p.role}.png`);
     token.querySelector('.token-ring').style.opacity = state.active === i && state.phase !== 'over' ? '1' : '0';
   });
 }
